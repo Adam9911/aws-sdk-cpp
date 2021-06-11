@@ -1,0 +1,38 @@
+name: manage-azure-policy-f363d7a3
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'vuchien/policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**'
+#      - 'vuchien/policies/Private_endpoint_connections_on_Batch_accounts_should_be_enabled_009a0c92-f5b4-4776-9b66-4ed2b4775563/**'
+#      - 'vuchien/policies/SQL_Server_Integration_Services_integration_runtimes_on_Azure_Data_Factory_should_be_joined_to_a_virtual_network_0088bc63-6dee-4a9c-9d29-91cfdc848952/**'
+#      - 'vuchien/policies/Web_Application_Firewall_(WAF)_should_be_enabled_for_Azure_Front_Door_Service_service_055aa869-bc98-4af8-bafc-23f1ab6ffe2c/**'
+#      - .github/workflows/manage-azure-policy-f363d7a3.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_f363d7a3}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          vuchien/policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**
+          vuchien/policies/Private_endpoint_connections_on_Batch_accounts_should_be_enabled_009a0c92-f5b4-4776-9b66-4ed2b4775563/**
+          vuchien/policies/SQL_Server_Integration_Services_integration_runtimes_on_Azure_Data_Factory_should_be_joined_to_a_virtual_network_0088bc63-6dee-4a9c-9d29-91cfdc848952/**
+          vuchien/policies/Web_Application_Firewall_(WAF)_should_be_enabled_for_Azure_Front_Door_Service_service_055aa869-bc98-4af8-bafc-23f1ab6ffe2c/**
